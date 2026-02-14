@@ -2,25 +2,18 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #f5e6b8;
-  overflow-x: hidden;
   background: linear-gradient(#7a0000, #2b0000);
+  overflow-x: hidden;
 }
 
-/* BACKGROUND ANGPAO JATUH */
+/* BACKGROUND ANGPAO */
 .angpao-bg {
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: -1;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0 60px,
-    rgba(255,215,0,.03) 60px 120px
-  );
 }
-
 .angpao-bg::before {
-  content: "🧧   🧧      🧧    🧧     🧧";
+  content: "🧧   🧧     🧧    🧧";
   position: absolute;
   width: 100%;
   top: -20%;
@@ -28,9 +21,7 @@ body {
   opacity: .15;
   animation: angpaoFall 25s linear infinite;
 }
-
 @keyframes angpaoFall {
-  from { transform: translateY(0); }
   to { transform: translateY(160%); }
 }
 
@@ -42,7 +33,6 @@ body {
   text-align: center;
 }
 
-/* TITLE BOX */
 .title-box {
   display: inline-block;
   padding: 10px 26px;
@@ -57,7 +47,6 @@ body {
 .subtitle {
   margin: 15px 0 30px;
   font-size: 14px;
-  opacity: .9;
 }
 
 .card {
@@ -74,7 +63,6 @@ input {
   padding: 14px;
   border-radius: 10px;
   border: none;
-  font-size: 15px;
   margin-bottom: 15px;
 }
 
@@ -85,15 +73,14 @@ button {
   background: gold;
   color: #5a0000;
   font-weight: bold;
-  font-size: 15px;
   cursor: pointer;
 }
 
 /* ANGPAO */
 .angpao-box {
-  position: relative;
   margin-top: 25px;
   height: 190px;
+  position: relative;
 }
 
 .angpao {
@@ -116,7 +103,6 @@ button {
   color: gold;
   transition: .6s;
 }
-
 .reward.show {
   transform: translate(-50%, -50%) scale(1);
 }
@@ -125,19 +111,15 @@ button {
 h2 {
   color: gold;
   font-size: 18px;
-  margin-bottom: 10px;
 }
-
 .history-box {
   max-height: 260px;
   overflow-y: auto;
 }
-
 ul {
   list-style: none;
   padding: 0;
 }
-
 li {
   background: rgba(0,0,0,.45);
   margin: 6px auto;
@@ -157,28 +139,60 @@ li {
 }
 
 .popup-box {
-  background: #5a0000;
-  border: 2px solid gold;
-  border-radius: 18px;
-  padding: 25px;
+  background: #8b0000;
+  border: 3px solid gold;
+  border-radius: 20px;
+  padding: 26px;
   max-width: 420px;
   margin: 18% auto;
   text-align: center;
 }
 
-.popup-box h3 {
-  color: gold;
+.popup-badge {
+  background: #b00000;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.user-badge {
+  display: inline-block;
+  background: white;
+  color: black;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.popup-amount {
+  color: white;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.note {
+  font-size: 13px;
+  opacity: .9;
 }
 
 .popup-box .cta {
   display: inline-block;
-  margin: 12px 0;
+  margin: 14px 0;
   padding: 12px 25px;
   background: gold;
   color: #5a0000;
   border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid gold;
+  color: white;
 }
 
 /* CHAT */
