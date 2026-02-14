@@ -8,31 +8,41 @@
 </head>
 <body>
 
+<!-- BACKGROUND LAMPION -->
+<div class="lantern-bg"></div>
+
 <div class="container">
   <h1>🧧 IMLEK 2026 RINJANI4D 🧧</h1>
-  <p class="subtitle">Event Angpao Spesial Untuk Member Setia</p>
+  <p class="subtitle">Angpao Spesial Imlek Untuk Member Setia</p>
 
   <div class="card">
     <input id="userId" placeholder="Masukkan User ID Member">
-    <button onclick="claimAngpao()">KLIK UNTUK CLAIM ANGPAO</button>
 
-    <!-- ANGPAO BESAR TANPA TEKS -->
-    <div class="angpao">🧧</div>
+    <button id="claimBtn" onclick="prepareClaim()">
+      KLIK UNTUK CLAIM ANGPAO
+    </button>
+
+    <div class="angpao-box">
+      <div id="angpao" class="angpao">🧧</div>
+      <div id="reward" class="reward"></div>
+    </div>
   </div>
 
-  <h2>🎉 50 Member Telah Mendapatkan Angpao</h2>
-  <ul id="history"></ul>
+  <h2>🎉 Riwayat 50 Member Mendapatkan Angpao</h2>
+  <div class="history-box">
+    <ul id="history"></ul>
+  </div>
 </div>
 
 <!-- POPUP -->
 <div id="popup" class="popup">
   <div class="popup-box">
-    <h3>🎊 SELAMAT!</h3>
+    <h3>🎊 SELAMAT 🎊</h3>
     <p id="popupText"></p>
     <p class="note">
-      Screenshot bukti ini dan kirim ke CS untuk klaim hadiah.
+      Screenshot halaman ini dan kirim ke CS untuk klaim hadiah.
     </p>
-    <a href="https://rinjanipuncak.com" class="cta">KLAIM KE CS</a>
+    <a href="https://rinjanipuncak.com" class="cta">KLAIM SEKARANG</a>
     <button onclick="closePopup()">TUTUP</button>
   </div>
 </div>
