@@ -1,46 +1,42 @@
+/* BACKGROUND + LAMPION */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #f5e6b8;
   overflow-x: hidden;
-}
 
-/* BACKGROUND LAMPION */
-.lantern-bg {
-  position: fixed;
-  inset: 0;
   background:
-    radial-gradient(circle at 20% 110%, rgba(255,200,0,.4), transparent 40%),
-    radial-gradient(circle at 80% 120%, rgba(255,180,0,.35), transparent 40%),
+    radial-gradient(circle at 20% 120%, rgba(255,180,0,.25), transparent 45%),
+    radial-gradient(circle at 80% 130%, rgba(255,140,0,.2), transparent 45%),
     linear-gradient(#7a0000, #2b0000);
-  z-index: -2;
-  overflow: hidden;
 }
 
-.lantern-bg::before,
-.lantern-bg::after {
-  content: "🏮 🏮 🏮 🏮 🏮 🏮 🏮";
-  position: absolute;
-  font-size: 40px;
-  width: 100%;
+/* LAMPION FLOAT */
+body::before,
+body::after {
+  content: "🏮   🏮      🏮   🏮    🏮";
+  position: fixed;
   left: 0;
-  animation: floatLantern 18s linear infinite;
-  opacity: 0.8;
+  width: 100%;
+  font-size: 42px;
+  opacity: .35;
+  pointer-events: none;
+  animation: lanternFloat 22s linear infinite;
 }
 
-.lantern-bg::after {
-  top: 120%;
-  animation-duration: 24s;
-  font-size: 32px;
-  opacity: 0.6;
+body::after {
+  top: 110%;
+  font-size: 30px;
+  opacity: .25;
+  animation-duration: 30s;
 }
 
-@keyframes floatLantern {
+@keyframes lanternFloat {
   from {
-    transform: translateY(0);
+    transform: translateY(0) translateX(0);
   }
   to {
-    transform: translateY(-140%);
+    transform: translateY(-140%) translateX(-40px);
   }
 }
 
@@ -94,11 +90,11 @@ button {
 .angpao-box {
   position: relative;
   margin-top: 30px;
-  height: 190px;
+  height: 200px;
 }
 
 .angpao {
-  font-size: 150px;
+  font-size: 160px;
   transition: transform .6s, opacity .6s;
 }
 
@@ -112,7 +108,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-size: 30px;
+  font-size: 32px;
   font-weight: bold;
   color: gold;
   transition: .6s;
@@ -123,6 +119,11 @@ button {
 }
 
 /* HISTORY */
+h2 {
+  color: gold;
+  margin-bottom: 10px;
+}
+
 .history-box {
   max-height: 260px;
   overflow-y: auto;
