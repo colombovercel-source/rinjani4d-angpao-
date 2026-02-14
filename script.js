@@ -1,66 +1,71 @@
-async function claimAngpao() {
-  const userId = document.getElementById("userId").value.trim();
+const MAX_HISTORY = 50;
+const HISTORY_KEY = "imlek_history";
+const CLAIM_PREFIX = "imlek_claim_";
 
+function randomUserId() {
+  return "MBR" + Math.random().toString(36).substring(2, 7).toUpperCase();
+}
+
+function randomAmount() {
+  return (Math.floor(Math.random() * 10) + 1) * 50000;
+}
+
+function initHistory() {
+  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
+  if (!history) {
+    history = [];
+    for (let i = 0; i < MAX_HISTORY; i++) {
+      history.push({
+        user: randomUserId(),
+        amount: randomAmount()
+      });
+    }
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  }
+  renderHistory(history);
+}
+
+function renderHistory(history) {
+  const ul = document.getElementById("history");
+  ul.innerHTML = "";
+  history.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.user} berhasil mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
+    ul.appendChild(li);
+  });
+}
+
+function claimAngpao() {
+  const userId = document.getElementById("userId").value.trim();
   if (!userId) {
-    alert("Silakan masukkan User ID terlebih dahulu.");
+    alert("User ID wajib diisi!");
     return;
   }
 
-  try {
-    const res = await fetch("/api/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId })
-    });
-
-    if (!res.ok) {
-      alert("Server error. Silakan coba lagi.");
-      return;
-    }
-
-    const data = await res.json();
-
-    if (!data.success) {
-      alert(data.message);
-      return;
-    }
-
-    document.getElementById("popupText").innerHTML = `
-      User ID <b>${data.userId}</b><br>
-      Berhasil mendapatkan angpao sebesar<br>
-      <span style="color:gold;font-size:22px">
-        Rp ${data.amount.toLocaleString("id-ID")}
-      </span>
-    `;
-
-    document.getElementById("popup").style.display = "block";
-    loadHistory();
-
-  } catch (err) {
-    alert("Koneksi bermasalah. Silakan refresh halaman.");
+  if (localStorage.getItem(CLAIM_PREFIX + userId)) {
+    alert("User ID ini sudah pernah klaim angpao.");
+    return;
   }
+
+  const reward = randomAmount();
+  localStorage.setItem(CLAIM_PREFIX + userId, reward);
+
+  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
+  history.unshift({ user: userId, amount: reward });
+  history = history.slice(0, MAX_HISTORY);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+
+  document.getElementById("popupText").innerHTML =
+    `User ID <b>${userId}</b><br><br>
+     Mendapatkan Angpao Sebesar<br>
+     <b>Rp ${reward.toLocaleString("id-ID")}</b>`;
+
+  document.getElementById("popup").style.display = "block";
+  renderHistory(history);
 }
 
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 
-async function loadHistory() {
-  try {
-    const res = await fetch("/api/claim");
-    const data = await res.json();
-
-    const list = document.getElementById("historyList");
-    list.innerHTML = "";
-
-    data.history.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent =
-        `${item.userId} mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
-      list.appendChild(li);
-    });
-  } catch {}
-}
-
-// load saat halaman dibuka
-loadHistory();
+initHistory();
