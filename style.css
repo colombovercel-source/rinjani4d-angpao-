@@ -1,60 +1,63 @@
-/* BACKGROUND + LAMPION */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #f5e6b8;
   overflow-x: hidden;
-
-  background:
-    radial-gradient(circle at 20% 120%, rgba(255,180,0,.25), transparent 45%),
-    radial-gradient(circle at 80% 130%, rgba(255,140,0,.2), transparent 45%),
-    linear-gradient(#7a0000, #2b0000);
+  background: linear-gradient(#7a0000, #2b0000);
 }
 
-/* LAMPION FLOAT */
-body::before,
-body::after {
-  content: "🏮   🏮      🏮   🏮    🏮";
+/* BACKGROUND ANGPAO JATUH */
+.angpao-bg {
   position: fixed;
-  left: 0;
-  width: 100%;
-  font-size: 42px;
-  opacity: .35;
+  inset: 0;
   pointer-events: none;
-  animation: lanternFloat 22s linear infinite;
+  z-index: -1;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 60px,
+    rgba(255,215,0,.03) 60px 120px
+  );
 }
 
-body::after {
-  top: 110%;
-  font-size: 30px;
-  opacity: .25;
-  animation-duration: 30s;
+.angpao-bg::before {
+  content: "🧧   🧧      🧧    🧧     🧧";
+  position: absolute;
+  width: 100%;
+  top: -20%;
+  font-size: 42px;
+  opacity: .15;
+  animation: angpaoFall 25s linear infinite;
 }
 
-@keyframes lanternFloat {
-  from {
-    transform: translateY(0) translateX(0);
-  }
-  to {
-    transform: translateY(-140%) translateX(-40px);
-  }
+@keyframes angpaoFall {
+  from { transform: translateY(0); }
+  to { transform: translateY(160%); }
 }
 
 /* LAYOUT */
 .container {
   max-width: 900px;
   margin: auto;
-  padding: 30px 20px 120px;
+  padding: 40px 20px 120px;
   text-align: center;
 }
 
-h1 {
+/* TITLE BOX */
+.title-box {
+  display: inline-block;
+  padding: 10px 26px;
+  border: 2px solid gold;
+  border-radius: 30px;
   color: gold;
-  font-size: 36px;
+  font-weight: bold;
+  font-size: 20px;
+  background: rgba(0,0,0,.4);
 }
 
 .subtitle {
-  margin-bottom: 25px;
+  margin: 15px 0 30px;
+  font-size: 14px;
+  opacity: .9;
 }
 
 .card {
@@ -67,35 +70,35 @@ h1 {
 
 input {
   width: 80%;
-  max-width: 380px;
+  max-width: 360px;
   padding: 14px;
   border-radius: 10px;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   margin-bottom: 15px;
 }
 
 button {
-  padding: 14px 30px;
+  padding: 14px 28px;
   border-radius: 30px;
   border: none;
   background: gold;
   color: #5a0000;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 }
 
 /* ANGPAO */
 .angpao-box {
   position: relative;
-  margin-top: 30px;
-  height: 200px;
+  margin-top: 25px;
+  height: 190px;
 }
 
 .angpao {
-  font-size: 160px;
-  transition: transform .6s, opacity .6s;
+  font-size: 150px;
+  transition: .6s;
 }
 
 .angpao.torn {
@@ -108,7 +111,7 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-size: 32px;
+  font-size: 30px;
   font-weight: bold;
   color: gold;
   transition: .6s;
@@ -121,6 +124,7 @@ button {
 /* HISTORY */
 h2 {
   color: gold;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
@@ -137,10 +141,10 @@ ul {
 li {
   background: rgba(0,0,0,.45);
   margin: 6px auto;
-  padding: 12px;
+  padding: 10px;
   border-radius: 10px;
   max-width: 520px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /* POPUP */
