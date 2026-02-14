@@ -1,92 +1,222 @@
-const scene = document.getElementById("scene");
-
-/* BACKGROUND ANGPAO 3D */
-function createAngpaoBG() {
-  const a = document.createElement("div");
-  a.className = "angpao";
-  a.style.left = Math.random() * window.innerWidth + "px";
-  a.style.animationDuration = (5 + Math.random() * 5) + "s";
-  scene.appendChild(a);
-  setTimeout(() => a.remove(), 10000);
-}
-setInterval(createAngpaoBG, 500);
-
-/* SYSTEM */
-const MAX_HISTORY = 50;
-const HISTORY_KEY = "angpao_history";
-const CLAIM_KEY = "angpao_claim_";
-
-let currentUser = "";
-let currentReward = 0;
-
-function randomUser() {
-  return "MBR" + Math.random().toString(36).substr(2,5).toUpperCase();
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #8b0000, #b30000, #ff1a1a);
+  color: #f5e6b8;
+  overflow-x: hidden;
 }
 
-function randomReward() {
-  return (Math.floor(Math.random() * 10) + 1) * 50000;
+/* BACKGROUND ANGPAO */
+.bg-angpao {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
 }
 
-function initHistory() {
-  let data = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  if (!data) {
-    data = [];
-    for (let i = 0; i < MAX_HISTORY; i++) {
-      data.push({ user: randomUser(), amount: randomReward() });
-    }
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(data));
+.bg-angpao span {
+  position: absolute;
+  font-size: 36px;
+  opacity: 0.15;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-10%);
   }
-  renderHistory(data);
+  to {
+    transform: translateY(110%);
+  }
 }
 
-function renderHistory(data) {
-  const ul = document.getElementById("history");
-  ul.innerHTML = "";
-  data.forEach(d => {
-    const li = document.createElement("li");
-    li.textContent = `${d.user} mendapatkan Rp ${d.amount.toLocaleString("id-ID")}`;
-    ul.appendChild(li);
-  });
+/* LAYOUT */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px 120px;
+  text-align: center;
 }
 
-function prepareClaim() {
-  const userId = document.getElementById("userId").value.trim();
-  if (!userId) return alert("User ID wajib diisi!");
-  if (localStorage.getItem(CLAIM_KEY + userId))
-    return alert("User ID ini sudah pernah claim.");
-
-  currentUser = userId;
-  currentReward = randomReward();
-
-  const btn = document.getElementById("claimBtn");
-  btn.textContent = "CLAIM ANGPAO";
-  btn.onclick = claimAngpao;
+.title-box {
+  display: inline-block;
+  padding: 8px 22px;
+  border: 2px solid gold;
+  border-radius: 30px;
+  color: gold;
+  font-weight: bold;
+  background: rgba(0,0,0,.4);
 }
 
-function claimAngpao() {
-  localStorage.setItem(CLAIM_KEY + currentUser, currentReward);
-
-  document.getElementById("angpaoIcon").classList.add("torn");
-  const reward = document.getElementById("reward");
-  reward.textContent = "Rp " + currentReward.toLocaleString("id-ID");
-  reward.classList.add("show");
-
-  let data = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  data.unshift({ user: currentUser, amount: currentReward });
-  data = data.slice(0, MAX_HISTORY);
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(data));
-  renderHistory(data);
-
-  setTimeout(() => {
-    document.getElementById("popupUser").textContent = currentUser;
-    document.getElementById("popupAmount").textContent =
-      "Mendapatkan Angpao Rp " + currentReward.toLocaleString("id-ID");
-    document.getElementById("popup").style.display = "block";
-  }, 800);
+.subtitle {
+  margin: 14px 0 28px;
+  font-size: 14px;
 }
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
+.card {
+  background: rgba(0,0,0,.45);
+  border: 2px solid gold;
+  border-radius: 18px;
+  padding: 30px 20px;
 }
 
-initHistory();
+/* INPUT */
+input {
+  width: 80%;
+  max-width: 360px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+}
+
+/* BUTTON */
+button {
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  background: gold;
+  color: #5a0000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ANGPAO */
+.angpao-area {
+  margin-top: 25px;
+  height: 240px;
+  position: relative;
+}
+
+.angpao-main {
+  font-size: 170px;
+  transition: .6s;
+}
+
+.angpao-main.torn {
+  transform: rotate(-15deg) scale(1.15);
+  opacity: .35;
+}
+
+.reward {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 34px;
+  font-weight: bold;
+  color: gold;
+  transition: .6s;
+}
+
+.reward.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* HISTORY */
+h2 {
+  margin-top: 35px;
+  color: gold;
+  font-size: 18px;
+}
+
+.history-box {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: rgba(0,0,0,.45);
+  margin: 6px auto;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 520px;
+  font-size: 13px;
+}
+
+/* POPUP */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  z-index: 99;
+}
+
+.popup-box {
+  background: #8b0000;
+  border: 3px solid gold;
+  border-radius: 20px;
+  padding: 26px;
+  max-width: 420px;
+  margin: 18% auto;
+  text-align: center;
+}
+
+.popup-badge {
+  background: #b00000;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+.user-badge {
+  background: white;
+  color: black;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-weight: bold;
+  margin: 15px auto;
+  display: inline-block;
+}
+
+.popup-amount {
+  color: white;
+  font-size: 22px;
+}
+
+.note {
+  font-size: 13px;
+}
+
+.cta {
+  display: inline-block;
+  margin: 14px 0;
+  padding: 12px 26px;
+  background: gold;
+  color: #5a0000;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid gold;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+/* CHAT */
+.chat {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  background: gold;
+  color: #5a0000;
+  font-size: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
