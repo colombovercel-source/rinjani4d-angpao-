@@ -1,10 +1,50 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: radial-gradient(circle, #a00000, #3b0000);
   color: #f5e6b8;
+  overflow-x: hidden;
 }
 
+/* BACKGROUND LAMPION */
+.lantern-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 110%, rgba(255,200,0,.4), transparent 40%),
+    radial-gradient(circle at 80% 120%, rgba(255,180,0,.35), transparent 40%),
+    linear-gradient(#7a0000, #2b0000);
+  z-index: -2;
+  overflow: hidden;
+}
+
+.lantern-bg::before,
+.lantern-bg::after {
+  content: "🏮 🏮 🏮 🏮 🏮 🏮 🏮";
+  position: absolute;
+  font-size: 40px;
+  width: 100%;
+  left: 0;
+  animation: floatLantern 18s linear infinite;
+  opacity: 0.8;
+}
+
+.lantern-bg::after {
+  top: 120%;
+  animation-duration: 24s;
+  font-size: 32px;
+  opacity: 0.6;
+}
+
+@keyframes floatLantern {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-140%);
+  }
+}
+
+/* LAYOUT */
 .container {
   max-width: 900px;
   margin: auto;
@@ -14,13 +54,11 @@ body {
 
 h1 {
   color: gold;
-  font-size: 38px;
-  margin-bottom: 5px;
+  font-size: 36px;
 }
 
 .subtitle {
-  opacity: .9;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .card {
@@ -28,17 +66,17 @@ h1 {
   border: 2px solid gold;
   border-radius: 18px;
   padding: 30px 20px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 input {
   width: 80%;
-  max-width: 400px;
+  max-width: 380px;
   padding: 14px;
   border-radius: 10px;
   border: none;
-  margin-bottom: 15px;
   font-size: 16px;
+  margin-bottom: 15px;
 }
 
 button {
@@ -52,25 +90,42 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  opacity: .9;
+/* ANGPAO */
+.angpao-box {
+  position: relative;
+  margin-top: 30px;
+  height: 190px;
 }
 
-/* ANGPAO BESAR */
 .angpao {
-  font-size: 140px;
-  margin-top: 25px;
-  animation: bounce 2s infinite;
+  font-size: 150px;
+  transition: transform .6s, opacity .6s;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.angpao.torn {
+  transform: rotate(-12deg) scale(1.1);
+  opacity: .3;
 }
 
-h2 {
+.reward {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 30px;
+  font-weight: bold;
   color: gold;
-  margin-bottom: 15px;
+  transition: .6s;
+}
+
+.reward.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* HISTORY */
+.history-box {
+  max-height: 260px;
+  overflow-y: auto;
 }
 
 ul {
@@ -119,13 +174,6 @@ li {
   border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
-}
-
-.popup-box button {
-  margin-top: 10px;
-  background: transparent;
-  border: 1px solid gold;
-  color: gold;
 }
 
 /* CHAT */
