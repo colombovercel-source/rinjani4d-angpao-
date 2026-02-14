@@ -1,5 +1,6 @@
 async function claimAngpao() {
   const userId = document.getElementById("userId").value.trim();
+
   if (!userId) {
     alert("Silakan masukkan User ID terlebih dahulu.");
     return;
@@ -12,6 +13,11 @@ async function claimAngpao() {
       body: JSON.stringify({ userId })
     });
 
+    if (!res.ok) {
+      alert("Server error. Silakan coba lagi.");
+      return;
+    }
+
     const data = await res.json();
 
     if (!data.success) {
@@ -21,7 +27,7 @@ async function claimAngpao() {
 
     document.getElementById("popupText").innerHTML = `
       User ID <b>${data.userId}</b><br>
-      Mendapatkan angpao sebesar<br>
+      Berhasil mendapatkan angpao sebesar<br>
       <span style="color:gold;font-size:22px">
         Rp ${data.amount.toLocaleString("id-ID")}
       </span>
@@ -31,7 +37,7 @@ async function claimAngpao() {
     loadHistory();
 
   } catch (err) {
-    alert("Server sedang sibuk, silakan coba lagi.");
+    alert("Koneksi bermasalah. Silakan refresh halaman.");
   }
 }
 
@@ -56,4 +62,5 @@ async function loadHistory() {
   } catch {}
 }
 
+// load saat halaman dibuka
 loadHistory();
