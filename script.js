@@ -2,8 +2,11 @@ const MAX_HISTORY = 50;
 const HISTORY_KEY = "imlek_history";
 const CLAIM_PREFIX = "imlek_claim_";
 
-function randomUserId() {
-  return "MBR" + Math.random().toString(36).substring(2, 7).toUpperCase();
+let currentUser = null;
+let currentReward = null;
+
+function randomUser() {
+  return "MBR" + Math.random().toString(36).substring(2,7).toUpperCase();
 }
 
 function randomAmount() {
@@ -15,10 +18,7 @@ function initHistory() {
   if (!history) {
     history = [];
     for (let i = 0; i < MAX_HISTORY; i++) {
-      history.push({
-        user: randomUserId(),
-        amount: randomAmount()
-      });
+      history.push({ user: randomUser(), amount: randomAmount() });
     }
     localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   }
@@ -30,38 +30,47 @@ function renderHistory(history) {
   ul.innerHTML = "";
   history.forEach(item => {
     const li = document.createElement("li");
-    li.textContent = `${item.user} berhasil mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
+    li.textContent =
+      `${item.user} mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
     ul.appendChild(li);
   });
 }
 
-function claimAngpao() {
+function prepareClaim() {
   const userId = document.getElementById("userId").value.trim();
-  if (!userId) {
-    alert("User ID wajib diisi!");
-    return;
-  }
+  if (!userId) return alert("User ID wajib diisi!");
+  if (localStorage.getItem(CLAIM_PREFIX + userId))
+    return alert("User ID ini sudah pernah klaim.");
 
-  if (localStorage.getItem(CLAIM_PREFIX + userId)) {
-    alert("User ID ini sudah pernah klaim angpao.");
-    return;
-  }
+  currentUser = userId;
+  currentReward = randomAmount();
 
-  const reward = randomAmount();
-  localStorage.setItem(CLAIM_PREFIX + userId, reward);
+  const btn = document.getElementById("claimBtn");
+  btn.textContent = "CLAIM ANGPAO";
+  btn.onclick = claimAngpao;
+}
+
+function claimAngpao() {
+  localStorage.setItem(CLAIM_PREFIX + currentUser, currentReward);
+
+  document.getElementById("angpao").classList.add("torn");
+  const reward = document.getElementById("reward");
+  reward.textContent = "Rp " + currentReward.toLocaleString("id-ID");
+  reward.classList.add("show");
 
   let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  history.unshift({ user: userId, amount: reward });
+  history.unshift({ user: currentUser, amount: currentReward });
   history = history.slice(0, MAX_HISTORY);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-
-  document.getElementById("popupText").innerHTML =
-    `User ID <b>${userId}</b><br><br>
-     Mendapatkan Angpao Sebesar<br>
-     <b>Rp ${reward.toLocaleString("id-ID")}</b>`;
-
-  document.getElementById("popup").style.display = "block";
   renderHistory(history);
+
+  setTimeout(() => {
+    document.getElementById("popupText").innerHTML =
+      `User ID <b>${currentUser}</b><br><br>
+       Mendapatkan Angpao Sebesar<br>
+       <b>Rp ${currentReward.toLocaleString("id-ID")}</b>`;
+    document.getElementById("popup").style.display = "block";
+  }, 800);
 }
 
 function closePopup() {
