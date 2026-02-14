@@ -1,38 +1,50 @@
-const MAX_HISTORY = 50;
-const HISTORY_KEY = "imlek_history";const MAX_HISTORY = 50;
-const HISTORY_KEY = "imlek_history";
-const CLAIM_PREFIX = "imlek_claim_";
+/* BACKGROUND ANGPAO */
+const bg = document.getElementById("bgAngpao");
 
-let currentUser = null;
-let currentReward = null;
+function spawnBgAngpao() {
+  const s = document.createElement("span");
+  s.textContent = "🧧";
+  s.style.left = Math.random() * 100 + "%";
+  s.style.animationDuration = (8 + Math.random() * 6) + "s";
+  bg.appendChild(s);
+  setTimeout(() => s.remove(), 15000);
+}
+setInterval(spawnBgAngpao, 600);
+
+/* SYSTEM */
+const MAX_HISTORY = 50;
+const HISTORY_KEY = "angpao_history";
+const CLAIM_KEY = "angpao_claim_";
+
+let currentUser = "";
+let currentReward = 0;
 
 function randomUser() {
-  return "MBR" + Math.random().toString(36).substring(2,7).toUpperCase();
+  return "MBR" + Math.random().toString(36).substr(2,5).toUpperCase();
 }
 
-function randomAmount() {
+function randomReward() {
   return (Math.floor(Math.random() * 10) + 1) * 50000;
 }
 
 function initHistory() {
-  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  if (!history) {
-    history = [];
+  let data = JSON.parse(localStorage.getItem(HISTORY_KEY));
+  if (!data) {
+    data = [];
     for (let i = 0; i < MAX_HISTORY; i++) {
-      history.push({ user: randomUser(), amount: randomAmount() });
+      data.push({ user: randomUser(), amount: randomReward() });
     }
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(data));
   }
-  renderHistory(history);
+  renderHistory(data);
 }
 
-function renderHistory(history) {
+function renderHistory(data) {
   const ul = document.getElementById("history");
   ul.innerHTML = "";
-  history.forEach(item => {
+  data.forEach(d => {
     const li = document.createElement("li");
-    li.textContent =
-      `${item.user} mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
+    li.textContent = `${d.user} mendapatkan Rp ${d.amount.toLocaleString("id-ID")}`;
     ul.appendChild(li);
   });
 }
@@ -40,11 +52,11 @@ function renderHistory(history) {
 function prepareClaim() {
   const userId = document.getElementById("userId").value.trim();
   if (!userId) return alert("User ID wajib diisi!");
-  if (localStorage.getItem(CLAIM_PREFIX + userId))
-    return alert("User ID ini sudah pernah klaim.");
+  if (localStorage.getItem(CLAIM_KEY + userId))
+    return alert("User ID ini sudah pernah claim.");
 
   currentUser = userId;
-  currentReward = randomAmount();
+  currentReward = randomReward();
 
   const btn = document.getElementById("claimBtn");
   btn.textContent = "CLAIM ANGPAO";
@@ -52,104 +64,23 @@ function prepareClaim() {
 }
 
 function claimAngpao() {
-  localStorage.setItem(CLAIM_PREFIX + currentUser, currentReward);
+  localStorage.setItem(CLAIM_KEY + currentUser, currentReward);
 
-  document.getElementById("angpao").classList.add("torn");
+  document.getElementById("angpaoMain").classList.add("torn");
   const reward = document.getElementById("reward");
   reward.textContent = "Rp " + currentReward.toLocaleString("id-ID");
   reward.classList.add("show");
 
-  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  history.unshift({ user: currentUser, amount: currentReward });
-  history = history.slice(0, MAX_HISTORY);
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  renderHistory(history);
+  let data = JSON.parse(localStorage.getItem(HISTORY_KEY));
+  data.unshift({ user: currentUser, amount: currentReward });
+  data = data.slice(0, MAX_HISTORY);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(data));
+  renderHistory(data);
 
   setTimeout(() => {
     document.getElementById("popupUser").textContent = currentUser;
     document.getElementById("popupAmount").textContent =
-      "Mendapatkan Angpao Sebesar Rp " +
-      currentReward.toLocaleString("id-ID");
-
-    document.getElementById("popup").style.display = "block";
-  }, 800);
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-
-initHistory();
-
-const CLAIM_PREFIX = "imlek_claim_";
-
-let currentUser = null;
-let currentReward = null;
-
-function randomUser() {
-  return "MBR" + Math.random().toString(36).substring(2,7).toUpperCase();
-}
-
-function randomAmount() {
-  return (Math.floor(Math.random() * 10) + 1) * 50000;
-}
-
-function initHistory() {
-  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  if (!history) {
-    history = [];
-    for (let i = 0; i < MAX_HISTORY; i++) {
-      history.push({ user: randomUser(), amount: randomAmount() });
-    }
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  }
-  renderHistory(history);
-}
-
-function renderHistory(history) {
-  const ul = document.getElementById("history");
-  ul.innerHTML = "";
-  history.forEach(item => {
-    const li = document.createElement("li");
-    li.textContent =
-      `${item.user} mendapatkan Rp ${item.amount.toLocaleString("id-ID")}`;
-    ul.appendChild(li);
-  });
-}
-
-function prepareClaim() {
-  const userId = document.getElementById("userId").value.trim();
-  if (!userId) return alert("User ID wajib diisi!");
-  if (localStorage.getItem(CLAIM_PREFIX + userId))
-    return alert("User ID ini sudah pernah klaim.");
-
-  currentUser = userId;
-  currentReward = randomAmount();
-
-  const btn = document.getElementById("claimBtn");
-  btn.textContent = "CLAIM ANGPAO";
-  btn.onclick = claimAngpao;
-}
-
-function claimAngpao() {
-  localStorage.setItem(CLAIM_PREFIX + currentUser, currentReward);
-
-  document.getElementById("angpao").classList.add("torn");
-  const reward = document.getElementById("reward");
-  reward.textContent = "Rp " + currentReward.toLocaleString("id-ID");
-  reward.classList.add("show");
-
-  let history = JSON.parse(localStorage.getItem(HISTORY_KEY));
-  history.unshift({ user: currentUser, amount: currentReward });
-  history = history.slice(0, MAX_HISTORY);
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  renderHistory(history);
-
-  setTimeout(() => {
-    document.getElementById("popupText").innerHTML =
-      `User ID <b>${currentUser}</b><br><br>
-       Mendapatkan Angpao Sebesar<br>
-       <b>Rp ${currentReward.toLocaleString("id-ID")}</b>`;
+      "Mendapatkan Angpao Rp " + currentReward.toLocaleString("id-ID");
     document.getElementById("popup").style.display = "block";
   }, 800);
 }
