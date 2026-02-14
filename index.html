@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Angpao Rinjani4D</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Angpao Rinjani4D</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- BACKGROUND ANGPAO -->
-<div class="angpao-bg"></div>
+<!-- BACKGROUND 3D ANGPAO -->
+<div class="scene" id="scene"></div>
 
 <div class="container">
 
+  <!-- JUDUL -->
   <div class="title-box">🧧 Angpao Rinjani4D 🧧</div>
-  <p class="subtitle">Event Spesial Imlek Untuk Member Setia</p>
+  <p class="subtitle">Event Spesial Imlek Member Setia</p>
 
+  <!-- CARD -->
   <div class="card">
     <input id="userId" placeholder="Masukkan User ID Member">
 
@@ -23,36 +26,40 @@
       KLIK UNTUK CLAIM ANGPAO
     </button>
 
+    <!-- ANGPAO -->
     <div class="angpao-box">
-      <div id="angpao" class="angpao">🧧</div>
+      <div id="angpaoIcon" class="angpao-icon">🧧</div>
       <div id="reward" class="reward"></div>
     </div>
   </div>
 
+  <!-- RIWAYAT -->
   <h2>🏆 Riwayat Spin Terakhir</h2>
   <div class="history-box">
     <ul id="history"></ul>
   </div>
+
 </div>
 
 <!-- POPUP -->
 <div id="popup" class="popup">
   <div class="popup-box">
-    <div class="popup-badge">🎊 SELAMAT 🎊</div>
+    <div class="popup-badge">🎉 SELAMAT 🎉</div>
 
     <div id="popupUser" class="user-badge"></div>
 
     <p id="popupAmount" class="popup-amount"></p>
 
     <p class="note">
-      Screenshot halaman ini dan kirim ke CS untuk klaim hadiah.
+      Silakan screenshot halaman ini dan kirim ke CS.
     </p>
 
     <a href="https://rinjanipuncak.com" class="cta">KLAIM SEKARANG</a>
-    <button onclick="closePopup()" class="close-btn">TUTUP</button>
+    <button class="close-btn" onclick="closePopup()">TUTUP</button>
   </div>
 </div>
 
+<!-- CHAT FLOAT -->
 <a href="https://rinjanipuncak.com" class="chat">💬</a>
 
 <script src="script.js"></script>
