@@ -6,19 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- BACKGROUND 3D ANGPAO -->
-<div class="scene" id="scene"></div>
+<!-- BACKGROUND -->
+<div class="bg-angpao" id="bgAngpao"></div>
 
 <div class="container">
 
-  <!-- JUDUL -->
   <div class="title-box">🧧 Angpao Rinjani4D 🧧</div>
-  <p class="subtitle">Event Spesial Imlek Member Setia</p>
+  <p class="subtitle">Event Imlek Spesial Member Setia</p>
 
-  <!-- CARD -->
   <div class="card">
     <input id="userId" placeholder="Masukkan User ID Member">
 
@@ -26,14 +23,12 @@
       KLIK UNTUK CLAIM ANGPAO
     </button>
 
-    <!-- ANGPAO -->
-    <div class="angpao-box">
-      <div id="angpaoIcon" class="angpao-icon">🧧</div>
+    <div class="angpao-area">
+      <div id="angpaoMain" class="angpao-main">🧧</div>
       <div id="reward" class="reward"></div>
     </div>
   </div>
 
-  <!-- RIWAYAT -->
   <h2>🏆 Riwayat Spin Terakhir</h2>
   <div class="history-box">
     <ul id="history"></ul>
@@ -45,21 +40,16 @@
 <div id="popup" class="popup">
   <div class="popup-box">
     <div class="popup-badge">🎉 SELAMAT 🎉</div>
-
     <div id="popupUser" class="user-badge"></div>
-
-    <p id="popupAmount" class="popup-amount"></p>
-
+    <div id="popupAmount" class="popup-amount"></div>
     <p class="note">
-      Silakan screenshot halaman ini dan kirim ke CS.
+      Screenshot halaman ini dan kirim ke CS untuk klaim hadiah.
     </p>
-
     <a href="https://rinjanipuncak.com" class="cta">KLAIM SEKARANG</a>
     <button class="close-btn" onclick="closePopup()">TUTUP</button>
   </div>
 </div>
 
-<!-- CHAT FLOAT -->
 <a href="https://rinjanipuncak.com" class="chat">💬</a>
 
 <script src="script.js"></script>
