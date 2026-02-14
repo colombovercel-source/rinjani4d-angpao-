@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>IMLEK 2026 DI RINJANI4D</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>IMLEK 2026 RINJANI4D</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="ornament"></div>
-
 <div class="container">
-  <h1>IMLEK 2026 DI RINJANI4D</h1>
-  <p class="subtitle">Event Angpao Eksklusif Member</p>
+  <h1>🧧 IMLEK 2026 RINJANI4D 🧧</h1>
+  <p class="subtitle">Event Angpao Spesial Untuk Member Setia</p>
 
-  <div class="claim-card">
-    <input
-      type="text"
-      id="userId"
-      placeholder="Masukkan User ID Member"
-      autocomplete="off"
-    />
+  <div class="card">
+    <input id="userId" placeholder="Masukkan User ID Member">
     <button onclick="claimAngpao()">KLIK UNTUK CLAIM ANGPAO</button>
 
-    <div class="angpao">
-      🧧
-      <p>Saldo Angpao</p>
-      <span>Rp 50.000 – 500.000</span>
-    </div>
+    <!-- ANGPAO BESAR TANPA TEKS -->
+    <div class="angpao">🧧</div>
   </div>
 
-  <h2>🎉 50 Riwayat Member Mendapatkan Angpao</h2>
-  <ul id="historyList"></ul>
+  <h2>🎉 50 Member Telah Mendapatkan Angpao</h2>
+  <ul id="history"></ul>
 </div>
 
 <!-- POPUP -->
@@ -40,18 +30,14 @@
     <h3>🎊 SELAMAT!</h3>
     <p id="popupText"></p>
     <p class="note">
-      Silakan screenshot tampilan ini dan kirimkan ke CS
-      untuk proses saldo angpao Anda.
+      Screenshot bukti ini dan kirim ke CS untuk klaim hadiah.
     </p>
-    <a href="https://rinjanipuncak.com" class="cta">KLAIM SEKARANG</a>
-    <button onclick="closePopup()" class="close">TUTUP</button>
+    <a href="https://rinjanipuncak.com" class="cta">KLAIM KE CS</a>
+    <button onclick="closePopup()">TUTUP</button>
   </div>
 </div>
 
-<!-- FLOATING CHAT -->
-<a href="https://rinjanipuncak.com" class="chat-float" title="Chat CS">
-  💬
-</a>
+<a href="https://rinjanipuncak.com" class="chat">💬</a>
 
 <script src="script.js"></script>
 </body>
